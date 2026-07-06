@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Premium Guide | Resource Dashboard</title>
+    <style>
+        :root {
+            --bg-main: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #21262d;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-bright: #f0f6fc;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            color: var(--text-bright);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        header h1 span {
+            color: var(--accent-blue);
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        /* Controls Section */
+        .controls-row {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 600px) {
+            .controls-row {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        .search-box {
+            position: relative;
+            flex-grow: 1;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-bright);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background-color: transparent;
+            border: 1px solid transparent;
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .tab-btn.active {
+            background-color: var(--bg-card);
+            border-color: var(--border-color);
+            color: var(--accent-blue);
+        }
+
+        /* Grid & Cards */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .resource-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+            background-color: var(--bg-hover);
+        }
+
+        .card-tag {
+            align-self: flex-start;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .tag-concepts { background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); }
+        .tag-tools { background: rgba(242, 139, 130, 0.15); color: #f28b82; }
+        .tag-resolvers { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+
+        .card-title {
+            color: var(--text-bright);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-title::after {
+            content: "↗";
+            font-size: 1rem;
+            color: #8b949e;
+            transition: color 0.2s;
+        }
+
+        .card:hover .card-title::after {
+            color: var(--accent-blue);
+        }
+
+        .card-description {
+            color: #8b949e;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #8b949e;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1><span>🌐</span> DNS Premium Resource Hub</h1>
+        <p>Production blueprints, official standards, and enterprise diagnostic utilities.</p>
+    </header>
+
+    <div class="controls-row">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search resources or tools...">
+        </div>
+        <div class="tabs">
+            <button class="tab-btn active" data-category="all">All Resources</button>
+            <button class="tab-btn" data-category="concepts">Core Concepts</button>
+            <button class="tab-btn" data-category="tools">Diagnostic Tools</button>
+            <button class="tab-btn" data-category="resolvers">Resolvers</button>
+        </div>
+    </div>
+
+    <main class="resource-grid" id="resourceGrid">
+        <!-- Core Concepts -->
+        <a href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" class="card" data-category="concepts">
+            <div>
+                <span class="card-tag tag-concepts">Concepts</span>
+                <div class="card-title">Cloudflare DNS Overview</div>
+                <div class="card-description">Comprehensive deep dive separating the technical logic between recursive resolvers and authoritative nameservers.</div>
+            </div>
+        </a>
+
+        <a href="https://www.ibm.com/think/topics/dns-records" target="_blank" class="card" data-category="concepts">
+            <div>
+                <span class="card-tag tag-concepts">Concepts</span>
+                <div class="card-title">IBM: Understanding DNS Records</div>
+                <div class="card-description">Structured, operational breakdown explaining critical zone file components including NS, MX, and TXT configurations.</div>
+            </div>
+        </a>
+
+        <a href="https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml" target="_blank" class="card" data-category="concepts">
+            <div>
+                <span class="card-tag tag-concepts">Concepts</span>
+                <div class="card-title">IANA DNS Official Parameters</div>
+                <div class="card-description">The global reference registry containing precise technical classes, operation codes, and formal resource types.</div>
+            </div>
+        </a>
+
+        <!-- Diagnostics -->
+        <a href="https://mxtoolbox.com/" target="_blank" class="card" data-category="tools">
+            <div>
+                <span class="card-tag tag-tools">Tools</span>
+                <div class="card-title">MxToolbox MX Lookup</div>
+                <div class="card-description">Enterprise email validation tool to thoroughly analyze mail exchanger routing and domain wellness checks.</div>
+            </div>
+        </a>
+
+        <a href="https://www.nslookup.io/" target="_blank" class="card" data-category="tools">
+            <div>
+                <span class="card-tag tag-tools">Tools</span>
+                <div class="card-title">Nslookup.io Web Suite</div>
+                <div class="card-description">Clean diagnostic interface to run structured queries against server endpoints and parse raw record sets.</div>
+            </div>
+        </a>
+
+        <a href="https://dnschecker.org/" target="_blank" class="card" data-category="tools">
+            <div>
+                <span class="card-tag tag-tools">Tools</span>
+                <div class="card-title">DNS Checker Propagation</div>
+                <div class="card-description">Global validation platform mapping active record updates across international geolocations simultaneously.</div>
+            </div>
+        </a>
+
+        <!-- Public Resolvers -->
+        <a href="https://developers.google.com/speed/public-dns" target="_blank" class="card" data-category="resolvers">
+            <div>
+                <span class="card-tag tag-resolvers">Resolvers</span>
+                <div class="card-title">Google Public DNS Devs</div>
+                <div class="card-description">Technical setup rules, anycast configurations, and optimization features for endpoints 8.8.8.8 & 8.8.4.4.</div>
+            </div>
+        </a>
+
+        <a href="https://1.1.1.1/" target="_blank" class="card" data-category="resolvers">
+            <div>
+                <span class="card-tag tag-resolvers">Resolvers</span>
+                <div class="card-title">Cloudflare 1.1.1.1 Security</div>
+                <div class="card-description">Implementation architectures focused on secure modern protocols including DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT).</div>
+            </div>
+        </a>
+    </main>
+
+    <div class="no-results" id="noResults">
+        No resources match your search filter.
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('searchInput');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const cards = document.querySelectorAll('.card');
+    const noResults = document.getElementById('noResults');
+    
+    let activeCategory = 'all';
+    let searchTerm = '';
+
+    // Search input handler
+    searchInput.addEventListener('input', (e) => {
+        searchTerm = e.target.value.toLowerCase().trim();
+        filterCards();
+    });
+
+    // Category Tabs handler
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = btn.getAttribute('data-category');
+            filterCards();
+        });
+    });
+
+    // Filtering Core Logic
+    function filterCards() {
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const cardCategory = card.getAttribute('data-category');
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            const desc = card.querySelector('.card-description').textContent.toLowerCase();
+            
+            const matchCategory = (activeCategory === 'all' || cardCategory === activeCategory);
+            const matchSearch = (title.includes(searchTerm) || desc.includes(searchTerm));
+
+            if (matchCategory && matchSearch) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+</script>
+<h6>Created by : Ankush-Nandal | <a href="https://in.linkedin.com/in/ankush-nandal">linkedin</a>
+
+</body>
+</html>
