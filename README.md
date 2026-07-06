@@ -4,7 +4,7 @@
 Markdown # 🌐 The DNS Premium Guide: Enterprise Architecture &amp; Optimization  Welcome to the **DNS Premium Guide** — an advanced, production-ready blueprint designed for network engineers, DevOps professionals, and security architects looking to master the Domain Name System. 
 ---
 
-## 📚 Curated Reference Links & Tools
+### 📚 Curated Reference Links & Tools
 
 Navigating the Domain Name System (DNS) efficiently requires a mix of solid theoretical documentation and reliable diagnostic utilities. Use these curated, industry-standard resources for deep-dives and live troubleshooting.
 
