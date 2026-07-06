@@ -6,7 +6,7 @@ Markdown # 🌐 The DNS Premium Guide: Enterprise Architecture &amp; Optimizatio
 
 ### 📚 Curated Reference Links & Tools
 
-Navigating the Domain Name System (DNS) efficiently requires a mix of solid theoretical documentation and reliable diagnostic utilities. Use these curated, industry-standard resources for deep-dives and live troubleshooting.
+* **Navigating the Domain Name System (DNS)** efficiently requires a mix of solid theoretical documentation and reliable diagnostic utilities. Use these curated, industry-standard resources for deep-dives and live troubleshooting.
 
 ### 📑 Core Concepts & Official Documentation
 *   **Cloudflare Learning:** [Cloudflare DNS Overview](https://www.cloudflare.com/learning/dns/what-is-dns/) — A deep dive into the foundational differences between recursive resolvers and authoritative nameservers.
