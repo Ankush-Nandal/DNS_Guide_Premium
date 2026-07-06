@@ -1,4 +1,4 @@
-<h6><B>Visit Reference Dashboard:-  https://ankush-nandal.github.io/DNS_Guide_Premium/    </B></h6>    
+# Visit Reference Dashboard:-  https://ankush-nandal.github.io/DNS_Guide_Premium/  
 
 # DNS_Guide_Premium
 Markdown # 🌐 The DNS Premium Guide: Enterprise Architecture &amp; Optimization  Welcome to the **DNS Premium Guide** — an advanced, production-ready blueprint designed for network engineers, DevOps professionals, and security architects looking to master the Domain Name System. 
